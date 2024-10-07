@@ -20,3 +20,7 @@ The main purpose of this website is for users to discover, submit, view and shar
 
 ### Members working on this project
 - Adrian Huerta
+
+### Useful Links
+
+- [Markdown Guide](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
