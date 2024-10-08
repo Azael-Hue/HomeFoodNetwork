@@ -14,7 +14,7 @@ The main purpose of this website is for users to discover, submit, view and shar
 - Cooking Difficulty
 
 ## Requirements
-- Runs on ASP.NET Core MVC targeting .NET 6
+- Runs on ASP.NET Core MVC targeting .NET 8
 - Database will use SQL Server
 - Website will be published on Microsoft Azure and run on Linux
 
