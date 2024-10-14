@@ -1,4 +1,5 @@
 using HomeFoodNetwork.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -18,6 +19,7 @@ namespace HomeFoodNetwork.Controllers
             return View();
         }
 
+        // [Authorize(Roles = IdentityHelper.User]
         public IActionResult Privacy()
         {
             return View();
