@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeFoodNetwork.Data;
 using HomeFoodNetwork.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeFoodNetwork.Controllers
 {
@@ -44,6 +45,7 @@ namespace HomeFoodNetwork.Controllers
         }
 
         // GET: Recipes/Create
+        [Authorize(Roles = IdentityHelper.User)]
         public IActionResult Create()
         {
             return View();
@@ -54,7 +56,8 @@ namespace HomeFoodNetwork.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RecipeName,Description,Ingredients,NumSteps,CookTime,PrepTime,TotalTime,ServingSize,Difficulty")] Recipe recipe)
+        [Authorize(Roles = IdentityHelper.User)]
+        public async Task<IActionResult> Create(Recipe recipe)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +69,7 @@ namespace HomeFoodNetwork.Controllers
         }
 
         // GET: Recipes/Edit/5
+        [Authorize(Roles = IdentityHelper.User)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,7 +90,8 @@ namespace HomeFoodNetwork.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RecipeName,Description,Ingredients,NumSteps,CookTime,PrepTime,TotalTime,ServingSize,Difficulty")] Recipe recipe)
+        [Authorize(Roles = IdentityHelper.User)]
+        public async Task<IActionResult> Edit(int id, Recipe recipe)
         {
             if (id != recipe.Id)
             {
@@ -117,6 +122,8 @@ namespace HomeFoodNetwork.Controllers
         }
 
         // GET: Recipes/Delete/5
+        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.Admin)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +143,8 @@ namespace HomeFoodNetwork.Controllers
 
         // POST: Recipes/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
