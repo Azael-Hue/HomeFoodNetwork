@@ -20,3 +20,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar-brand {
+    padding: 0;
+    text-align: center;
+}
+
+.header-image {
+    max-width: 100%;
+    height: auto;
+}
