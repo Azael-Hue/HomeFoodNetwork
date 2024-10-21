@@ -37,6 +37,18 @@ namespace HomeFoodNetwork.Models
         [Required]
         public string NumSteps { get; set; }
 
+
+        // Time properties
+        /// <summary>
+        /// These 4 properties are used to store the
+        /// hours and minutes of the cook and prep time
+        /// </summary>
+        public int CookTimeHours { get; set; }
+        public int CookTimeMinutes { get; set; }
+        public int PrepTimeHours { get; set; }
+        public int PrepTimeMinutes { get; set; }
+
+
         /// <summary>
         /// The amount of time needed to cook the recipe
         /// </summary>

@@ -59,8 +59,21 @@ namespace HomeFoodNetwork.Controllers
         [Authorize(Roles = IdentityHelper.User)]
         public async Task<IActionResult> Create(Recipe recipe)
         {
+
+            recipe.CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes";
+            recipe.PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes";
+
             if (ModelState.IsValid)
             {
+                int totalHours = recipe.CookTimeHours + recipe.PrepTimeHours;
+                int totalMinutes = recipe.CookTimeMinutes + recipe.PrepTimeMinutes;
+
+                if (totalMinutes >= 60)
+                {
+                    totalHours += totalMinutes / 60;
+                    totalMinutes = totalMinutes % 60;
+                }
+
                 _context.Add(recipe);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

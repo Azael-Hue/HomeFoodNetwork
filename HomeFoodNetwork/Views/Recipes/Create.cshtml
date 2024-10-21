@@ -37,22 +37,32 @@
                 <span asp-validation-for="NumSteps" class="text-danger"></span>
             </div>
             
+            <!--
+                COOKING TIME
+            -->
             <div class="form-group">
-                <label asp-for="CookTime" class="control-label"></label>
-                <input asp-for="CookTime" class="form-control" />
+                <label asp-for="CookTime" class="control-label">Cook Time</label>
+                <div>
+                    <input type="number" asp-for="CookTimeHours" class="form-control"
+                        placeholder="Hours" min="0" /> Hours
+                    <input type="number" asp-for="CookTimeMinutes" class="form-control"
+                        placeholder="Minutes" min="0" max="59" /> Minutes
+                </div>
                 <span asp-validation-for="CookTime" class="text-danger"></span>
             </div>
             
+            <!--
+                PREPING TIME
+            -->
             <div class="form-group">
-                <label asp-for="PrepTime" class="control-label"></label>
-                <input asp-for="PrepTime" class="form-control" />
+                <label asp-for="PrepTime" class="control-label">Prep Time</label>
+                <div>
+                    <input type="number" asp-for="PrepTimeHours" class="form-control"
+                        placeholder="Hours" min="0" /> Hours
+                    <input type="number" asp-for="PrepTimeMinutes" class="form-control"
+                        placeholder="Minutes" min="0" max="59" /> Minutes
+                </div>
                 <span asp-validation-for="PrepTime" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="TotalTime" class="control-label"></label>
-                <input asp-for="TotalTime" class="form-control" />
-                <span asp-validation-for="TotalTime" class="text-danger"></span>
             </div>
             
             <div class="form-group">
