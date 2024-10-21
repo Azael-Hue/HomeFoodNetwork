@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HomeFoodNetwork.Models
 {
@@ -57,12 +59,15 @@ namespace HomeFoodNetwork.Models
         /// The amount of food served by the recipe
         /// </summary>
         [Required]
-        public string ServingSize { get; set; }
+        public int ServingSize { get; set; }
 
         /// <summary>
         /// How difficult the recipe is to make on a 1-5 scale
         /// </summary>
         [Required]
         public int Difficulty { get; set; }
+
+        [ForeignKey("UserId")]
+        public required IdentityUser User { get; set; }
     }
 }
