@@ -35,19 +35,7 @@ namespace HomeFoodNetwork.Models
         /// The amount of steps requiered to make the recipe
         /// </summary>
         [Required]
-        public string NumSteps { get; set; }
-
-
-        // Time properties
-        /// <summary>
-        /// These 4 properties are used to store the
-        /// hours and minutes of the cook and prep time
-        /// </summary>
-        public int CookTimeHours { get; set; }
-        public int CookTimeMinutes { get; set; }
-        public int PrepTimeHours { get; set; }
-        public int PrepTimeMinutes { get; set; }
-
+        public int NumSteps { get; set; }
 
         /// <summary>
         /// The amount of time needed to cook the recipe
@@ -79,7 +67,50 @@ namespace HomeFoodNetwork.Models
         [Required]
         public int Difficulty { get; set; }
 
+        /// <summary>
+        /// Who created the recipe
+        /// </summary>
         [ForeignKey("UserId")]
         public required IdentityUser User { get; set; }
     }
-}
+
+    public class RecipeCreateViewModel
+    {
+        public string RecipeName { get; set; }
+
+        public string Description { get; set; }
+
+        public string Ingredients { get; set; }
+
+        public string Steps { get; set; }
+
+        // Time properties
+        /// <summary>
+        /// These 4 properties are used to store the
+        /// hours and minutes of the cook and prep time
+        /// </summary>
+        public int CookTimeHours { get; set; }
+        public int CookTimeMinutes { get; set; }
+        public int PrepTimeHours { get; set; }
+        public int PrepTimeMinutes { get; set; }
+
+        public int ServingSize { get; set; }
+
+        public int Difficulty { get; set; }
+
+    }
+
+    public class RecipeIndexViewModel
+    {
+        public string RecipeName { get; set; }
+
+        public string User { get; set; }
+
+        public int numSteps { get; set; }
+
+        public string totalTime { get; set; }
+
+        public int servingSize { get; set; }
+
+        public int difficulty { get; set; }
+    }
