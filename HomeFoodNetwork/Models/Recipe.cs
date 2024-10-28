@@ -82,7 +82,7 @@ namespace HomeFoodNetwork.Models
 
         public string Ingredients { get; set; }
 
-        public string Steps { get; set; }
+        public int NumSteps { get; set; }
 
         // Time properties
         /// <summary>
@@ -114,3 +114,4 @@ namespace HomeFoodNetwork.Models
 
         public int difficulty { get; set; }
     }
+}

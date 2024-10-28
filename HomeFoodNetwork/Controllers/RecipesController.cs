@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using HomeFoodNetwork.Data;
 using HomeFoodNetwork.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeFoodNetwork.Controllers
 {
     public class RecipesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public RecipesController(ApplicationDbContext context)
+        public RecipesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Recipes
@@ -57,12 +60,8 @@ namespace HomeFoodNetwork.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = IdentityHelper.User)]
-        public async Task<IActionResult> Create(Recipe recipe)
+        public async Task<IActionResult> Create(RecipeCreateViewModel recipe)
         {
-
-            recipe.CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes";
-            recipe.PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes";
-
             if (ModelState.IsValid)
             {
                 int totalHours = recipe.CookTimeHours + recipe.PrepTimeHours;
@@ -74,7 +73,23 @@ namespace HomeFoodNetwork.Controllers
                     totalMinutes = totalMinutes % 60;
                 }
 
-                _context.Add(recipe);
+                string totalTime = $"{totalHours} hours {totalMinutes} minutes";
+
+                Recipe newRecipe = new()
+                {
+                    RecipeName = recipe.RecipeName,
+                    Description = recipe.Description,
+                    Ingredients = recipe.Ingredients,
+                    NumSteps = recipe.NumSteps,
+                    CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes",
+                    PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes",
+                    TotalTime = totalTime,
+                    ServingSize = recipe.ServingSize,
+                    Difficulty = recipe.Difficulty,
+                    User = await _userManager.GetUserAsync(User), // Get the current user
+                };
+
+                _context.Add(newRecipe);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
