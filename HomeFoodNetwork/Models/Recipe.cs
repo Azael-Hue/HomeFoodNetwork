@@ -102,6 +102,8 @@ namespace HomeFoodNetwork.Models
 
     public class RecipeIndexViewModel
     {
+        public int Id { get; set; }
+
         public string RecipeName { get; set; }
 
         public string User { get; set; }

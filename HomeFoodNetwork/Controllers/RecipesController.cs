@@ -26,7 +26,19 @@ namespace HomeFoodNetwork.Controllers
         // GET: Recipes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Recipe.ToListAsync());
+            List<RecipeIndexViewModel> recipeList = await (from r in _context.Recipe
+                                                           select new RecipeIndexViewModel
+                                                           {
+                                                               Id = r.Id,
+                                                               RecipeName = r.RecipeName,
+                                                               User = r.User.UserName,
+                                                               numSteps = r.NumSteps,
+                                                               totalTime = r.TotalTime,
+                                                               servingSize = r.ServingSize,
+                                                               difficulty = r.Difficulty
+                                                           }).ToListAsync();
+
+            return View(recipeList);
         }
 
         // GET: Recipes/Details/5
