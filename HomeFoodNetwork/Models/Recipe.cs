@@ -94,6 +94,24 @@ namespace HomeFoodNetwork.Models
         public int PrepTimeHours { get; set; }
         public int PrepTimeMinutes { get; set; }
 
+        public string TotalTime
+        {
+            get
+            {
+                int totalHours = CookTimeHours + PrepTimeHours;
+                int totalMinutes = CookTimeMinutes + PrepTimeMinutes;
+
+                if (totalMinutes >= 60)
+                {
+                    totalHours += totalMinutes / 60;
+                    totalMinutes = totalMinutes % 60;
+                }
+                return $"{totalHours} hours {totalMinutes} minutes";
+            }
+
+            set { }
+        }
+
         public int ServingSize { get; set; }
 
         public int Difficulty { get; set; }

@@ -27,16 +27,16 @@ namespace HomeFoodNetwork.Controllers
         public async Task<IActionResult> Index()
         {
             List<RecipeIndexViewModel> recipeList = await (from r in _context.Recipe
-                                                           select new RecipeIndexViewModel
-                                                           {
-                                                               Id = r.Id,
-                                                               RecipeName = r.RecipeName,
-                                                               User = r.User.UserName,
-                                                               numSteps = r.NumSteps,
-                                                               totalTime = r.TotalTime,
-                                                               servingSize = r.ServingSize,
-                                                               difficulty = r.Difficulty
-                                                           }).ToListAsync();
+                select new RecipeIndexViewModel
+                {
+                    Id = r.Id,
+                    RecipeName = r.RecipeName,
+                    User = r.User.UserName,
+                    numSteps = r.NumSteps,
+                    totalTime = r.TotalTime,
+                    servingSize = r.ServingSize,
+                    difficulty = r.Difficulty
+                }).ToListAsync();
 
             return View(recipeList);
         }
@@ -76,16 +76,6 @@ namespace HomeFoodNetwork.Controllers
         {
             if (ModelState.IsValid)
             {
-                int totalHours = recipe.CookTimeHours + recipe.PrepTimeHours;
-                int totalMinutes = recipe.CookTimeMinutes + recipe.PrepTimeMinutes;
-
-                if (totalMinutes >= 60)
-                {
-                    totalHours += totalMinutes / 60;
-                    totalMinutes = totalMinutes % 60;
-                }
-
-                string totalTime = $"{totalHours} hours {totalMinutes} minutes";
 
                 Recipe newRecipe = new()
                 {
@@ -95,7 +85,7 @@ namespace HomeFoodNetwork.Controllers
                     NumSteps = recipe.NumSteps,
                     CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes",
                     PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes",
-                    TotalTime = totalTime,
+                    TotalTime = recipe.TotalTime,
                     ServingSize = recipe.ServingSize,
                     Difficulty = recipe.Difficulty,
                     User = await _userManager.GetUserAsync(User), // Get the current user
