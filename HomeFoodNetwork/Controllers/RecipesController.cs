@@ -9,6 +9,7 @@ using HomeFoodNetwork.Data;
 using HomeFoodNetwork.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace HomeFoodNetwork.Controllers
 {
@@ -112,7 +113,23 @@ namespace HomeFoodNetwork.Controllers
             {
                 return NotFound();
             }
-            return View(recipe);
+
+            RecipeCreateViewModel recipeViewModel = new()
+            {
+                Id = recipe.Id,
+                RecipeName = recipe.RecipeName,
+                Description = recipe.Description,
+                Ingredients = recipe.Ingredients,
+                NumSteps = recipe.NumSteps,
+                CookTimeHours = int.Parse(recipe.CookTime.Split(" ")[0]),
+                CookTimeMinutes = int.Parse(recipe.CookTime.Split(" ")[2]),
+                PrepTimeHours = int.Parse(recipe.PrepTime.Split(" ")[0]),
+                PrepTimeMinutes = int.Parse(recipe.PrepTime.Split(" ")[2]),
+                TotalTime = recipe.TotalTime,
+                ServingSize = recipe.ServingSize,
+                Difficulty = recipe.Difficulty
+            };
+            return View(recipeViewModel);
         }
 
         // POST: Recipes/Edit/5
@@ -121,7 +138,7 @@ namespace HomeFoodNetwork.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = IdentityHelper.User)]
-        public async Task<IActionResult> Edit(int id, Recipe recipe)
+        public async Task<IActionResult> Edit(int id, RecipeCreateViewModel recipe)
         {
             if (id != recipe.Id)
             {
@@ -132,8 +149,21 @@ namespace HomeFoodNetwork.Controllers
             {
                 try
                 {
-                    _context.Update(recipe);
+                    Recipe recipeToEdit = await _context.Recipe.FindAsync(id);
+
+                    recipeToEdit.RecipeName = recipe.RecipeName;
+                    recipeToEdit.Description = recipe.Description;
+                    recipeToEdit.Ingredients = recipe.Ingredients;
+                    recipeToEdit.NumSteps = recipe.NumSteps;
+                    recipeToEdit.CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes";
+                    recipeToEdit.PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes";
+                    recipeToEdit.TotalTime = recipe.TotalTime;
+                    recipeToEdit.ServingSize = recipe.ServingSize;
+                    recipeToEdit.Difficulty = recipe.Difficulty;
+
+                    _context.Update(recipeToEdit);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -146,7 +176,6 @@ namespace HomeFoodNetwork.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(recipe);
         }
