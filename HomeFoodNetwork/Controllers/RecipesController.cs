@@ -36,7 +36,7 @@ namespace HomeFoodNetwork.Controllers
                     numSteps = r.NumSteps,
                     totalTime = r.TotalTime,
                     servingSize = r.ServingSize,
-                    difficulty = r.Difficulty
+                    Difficulty = r.Difficulty
                 }).ToListAsync();
 
             return View(recipeList);

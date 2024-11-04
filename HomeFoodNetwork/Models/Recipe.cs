@@ -65,7 +65,7 @@ namespace HomeFoodNetwork.Models
         /// How difficult the recipe is to make on a 1-5 scale
         /// </summary>
         [Required]
-        public int Difficulty { get; set; }
+        public string Difficulty { get; set; }
 
         /// <summary>
         /// Who created the recipe
@@ -116,7 +116,7 @@ namespace HomeFoodNetwork.Models
 
         public int ServingSize { get; set; }
 
-        public int Difficulty { get; set; }
+        public string Difficulty { get; set; }
 
     }
 
@@ -134,6 +134,6 @@ namespace HomeFoodNetwork.Models
 
         public int servingSize { get; set; }
 
-        public int difficulty { get; set; }
+        public string Difficulty { get; set; }
     }
 }
