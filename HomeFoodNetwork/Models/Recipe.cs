@@ -76,6 +76,8 @@ namespace HomeFoodNetwork.Models
 
     public class RecipeCreateViewModel
     {
+        public int Id { get; set; }
+
         public string RecipeName { get; set; }
 
         public string Description { get; set; }
