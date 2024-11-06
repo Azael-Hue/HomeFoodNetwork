@@ -110,8 +110,6 @@ namespace HomeFoodNetwork.Models
                 }
                 return $"{totalHours} hours {totalMinutes} minutes";
             }
-
-            set { }
         }
 
         public int ServingSize { get; set; }
