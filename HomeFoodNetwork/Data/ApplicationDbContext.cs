@@ -10,6 +10,7 @@ namespace HomeFoodNetwork.Data
             : base(options)
         {
         }
-        public DbSet<HomeFoodNetwork.Models.Recipe> Recipe { get; set; } = default!;
+        public DbSet<Recipe> Recipe { get; set; } = default!;
+        public DbSet<RecipeSteps> RecipeSteps { get; set; } = default!;
     }
 }
