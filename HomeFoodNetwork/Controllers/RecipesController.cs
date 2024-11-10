@@ -34,7 +34,7 @@ namespace HomeFoodNetwork.Controllers
                     RecipeName = r.RecipeName,
                     User = r.User.UserName,
                     // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
-                    // numSteps = r.NumSteps,
+                    totalSteps = r.RecipeSteps.Count(),
                     totalTime = r.TotalTime,
                     servingSize = r.ServingSize,
                     Difficulty = r.Difficulty
@@ -52,6 +52,7 @@ namespace HomeFoodNetwork.Controllers
             }
 
             var recipe = await _context.Recipe
+                .Include(r => r.RecipeSteps) // Specifies the related objects to include in the query results.
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (recipe == null)
             {

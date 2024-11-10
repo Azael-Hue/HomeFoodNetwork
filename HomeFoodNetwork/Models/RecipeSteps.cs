@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HomeFoodNetwork.Models
 {
     public class RecipeSteps
     {
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -15,11 +17,13 @@ namespace HomeFoodNetwork.Models
         /// <summary>
         /// Order of the step in the recipe
         /// </summary>
+        [Required]
         public int StepNumber { get; set; }
 
         /// <summary>
         /// Description/Detail of the step
         /// </summary>
+        [Required]
         public string StepDescription { get; set; }
 
         /// <summary>

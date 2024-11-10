@@ -66,6 +66,12 @@ namespace HomeFoodNetwork.Models
         /// </summary>
         [ForeignKey("UserId")]
         public required IdentityUser User { get; set; }
+
+        /// <summary>
+        /// Navigation property for the recipe steps
+        /// </summary>
+        [InverseProperty("Recipe")]
+        public virtual ICollection<RecipeSteps> RecipeSteps { get; set; } = new List<RecipeSteps>();
     }
 
     public class RecipeCreateViewModel
@@ -123,5 +129,7 @@ namespace HomeFoodNetwork.Models
         public int servingSize { get; set; }
 
         public string Difficulty { get; set; }
+
+        public int totalSteps { get; set; }
     }
 }
