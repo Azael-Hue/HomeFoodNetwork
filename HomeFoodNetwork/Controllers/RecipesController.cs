@@ -33,7 +33,8 @@ namespace HomeFoodNetwork.Controllers
                     Id = r.Id,
                     RecipeName = r.RecipeName,
                     User = r.User.UserName,
-                    numSteps = r.NumSteps,
+                    // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
+                    // numSteps = r.NumSteps,
                     totalTime = r.TotalTime,
                     servingSize = r.ServingSize,
                     Difficulty = r.Difficulty
@@ -83,7 +84,8 @@ namespace HomeFoodNetwork.Controllers
                     RecipeName = recipe.RecipeName,
                     Description = recipe.Description,
                     Ingredients = recipe.Ingredients,
-                    NumSteps = recipe.NumSteps,
+                    // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
+                    // NumSteps = recipe.NumSteps,
                     CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes",
                     PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes",
                     TotalTime = recipe.TotalTime,
@@ -120,12 +122,12 @@ namespace HomeFoodNetwork.Controllers
                 RecipeName = recipe.RecipeName,
                 Description = recipe.Description,
                 Ingredients = recipe.Ingredients,
-                NumSteps = recipe.NumSteps,
+                // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
+                // NumSteps = recipe.NumSteps,
                 CookTimeHours = int.Parse(recipe.CookTime.Split(" ")[0]),
                 CookTimeMinutes = int.Parse(recipe.CookTime.Split(" ")[2]),
                 PrepTimeHours = int.Parse(recipe.PrepTime.Split(" ")[0]),
                 PrepTimeMinutes = int.Parse(recipe.PrepTime.Split(" ")[2]),
-                TotalTime = recipe.TotalTime,
                 ServingSize = recipe.ServingSize,
                 Difficulty = recipe.Difficulty
             };
@@ -154,7 +156,8 @@ namespace HomeFoodNetwork.Controllers
                     recipeToEdit.RecipeName = recipe.RecipeName;
                     recipeToEdit.Description = recipe.Description;
                     recipeToEdit.Ingredients = recipe.Ingredients;
-                    recipeToEdit.NumSteps = recipe.NumSteps;
+                    // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
+                    // recipeToEdit.NumSteps = recipe.NumSteps;
                     recipeToEdit.CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes";
                     recipeToEdit.PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes";
                     recipeToEdit.TotalTime = recipe.TotalTime;

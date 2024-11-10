@@ -32,12 +32,6 @@ namespace HomeFoodNetwork.Models
         public string Ingredients { get; set; }
 
         /// <summary>
-        /// The amount of steps requiered to make the recipe
-        /// </summary>
-        [Required]
-        public int NumSteps { get; set; }
-
-        /// <summary>
         /// The amount of time needed to cook the recipe
         /// </summary>
         [Required]
@@ -84,8 +78,6 @@ namespace HomeFoodNetwork.Models
 
         public string Ingredients { get; set; }
 
-        public int NumSteps { get; set; }
-
         // Time properties
         /// <summary>
         /// These 4 properties are used to store the
@@ -125,8 +117,6 @@ namespace HomeFoodNetwork.Models
         public string RecipeName { get; set; }
 
         public string User { get; set; }
-
-        public int numSteps { get; set; }
 
         public string totalTime { get; set; }
 

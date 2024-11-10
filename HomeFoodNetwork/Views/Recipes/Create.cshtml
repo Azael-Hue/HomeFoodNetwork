@@ -13,24 +13,37 @@
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <!--
+                REIPE NAME
+            -->
             <div class="form-group">
                 <label asp-for="RecipeName" class="control-label">Recipe Name</label>
                 <input asp-for="RecipeName" class="form-control" />
                 <span asp-validation-for="RecipeName" class="text-danger"></span>
             </div>
-            
+
+            <!--
+                DESCRIPTION
+            -->
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Description</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             
+            <!--
+                INGREDIENTS
+            -->
             <div class="form-group">
                 <label asp-for="Ingredients" class="control-label">Ingredients</label>
                 <input asp-for="Ingredients" class="form-control" />
                 <span asp-validation-for="Ingredients" class="text-danger"></span>
             </div>
             
+            <!--
+                STEPS
+                // TO BE IMPLEMENTED
+            -->
             <div class="form-group">
                 <label asp-for="NumSteps" class="control-label">Number of Steps</label>
                 <input asp-for="NumSteps" class="form-control" />
@@ -74,12 +87,18 @@
                 <span asp-validation-for="PrepTimeHours" class="text-danger"></span>
             </div>
             
+            <!--
+                SERVING SIZE
+            -->
             <div class="form-group">
                 <label asp-for="ServingSize" class="control-label">Serving Size</label>
                 <input asp-for="ServingSize" class="form-control" />
                 <span asp-validation-for="ServingSize" class="text-danger"></span>
             </div>
             
+            <!--
+                DIFFICULTY
+            -->
             <div class="form-group">
                 <label asp-for="Difficulty" class="control-label"></label>
                 <div>
