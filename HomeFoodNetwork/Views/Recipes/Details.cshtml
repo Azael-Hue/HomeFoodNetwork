@@ -1,4 +1,4 @@
-﻿@model HomeFoodNetwork.Models.Recipe
+﻿@model Recipe
 
 @{
     ViewData["Title"] = "Details";
@@ -42,13 +42,15 @@
             <h5>Steps</h5>
         </dt>
 
-        <!--
-                STEPS
-                TO BE IMPLEMENTED
-        -->
+        <!-- loop through the all the steps to display each -->
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumSteps)
+            <ol>
+                @foreach (var step in Model.RecipeSteps.OrderBy(s => s.StepNumber)){
+                    <li>@step.StepDescription</li>
+                }
+            </ol>
         </dd>
+
         <dt class = "col-sm-2">
             <h5>Cook Time</h5>
         </dt>

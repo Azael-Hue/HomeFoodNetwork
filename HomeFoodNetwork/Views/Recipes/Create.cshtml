@@ -42,12 +42,18 @@
             
             <!--
                 STEPS
-                // TO BE IMPLEMENTED
             -->
             <div class="form-group">
-                <label asp-for="NumSteps" class="control-label">Number of Steps</label>
-                <input asp-for="NumSteps" class="form-control" />
-                <span asp-validation-for="NumSteps" class="text-danger"></span>
+                <label class="control-label">Steps</label>
+                <div id="stepsContainer">
+                    <!-- initial steip input placeholder -->
+                    <div class="step-input" id="step-1">
+                        <label for="RecipeSteps[0].StepDescription">Step 1</label>
+                        <input type="text" name="RecipeSteps[0].StepDescription" class="form-control" placeholder="Enter step description" />
+                        
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addStep()">Add Step</button>
             </div>
             
             <!--
@@ -131,4 +137,38 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <!-- Use JS Script to append to the Steps container -->
+    <script>
+        let stepCount = 1;
+
+        function addStep() {
+            // Check if the last step input is empty
+            if ($(`#step-${stepCount} input`).val().trim() === "") {
+                alert("Please fill out the current step before adding a new one.");
+                return;
+            }   else {
+                stepCount++;
+
+                let step =
+                `<div class="step-input" id="step-${stepCount}">
+                    <label for="RecipeSteps[${stepCount - 1}].StepDescription">Step ${stepCount}</label>
+                    <input type="text" name="RecipeSteps[${stepCount - 1}].StepDescription" class="form-control" placeholder="Enter step description" />
+                    <button type="button" class="btn btn-danger mt-2" onclick="removeStep(${stepCount})"> Remove </button>
+                </div>`;
+
+                $('#stepsContainer').append(step);
+            }
+        }
+
+        function removeStep(stepNumber) {
+            if (stepCount === 1) {
+                alert("You cannot remove the last step.");
+                return;
+            }   else {
+                $(`#step-${stepNumber}`).remove();
+                stepCount--;
+            }
+        }
+    </script>
 }

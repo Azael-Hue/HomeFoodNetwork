@@ -18,13 +18,9 @@
                 <div class="card-body">
                     <h5 class="card-title">@item.RecipeName</h5>
                     <p class="card-text">Created by: @item.User</p>
-                    <!--
-                            STEPS
-                            TO BE IMPLEMENTED
-                    -->
-                    <p class="card-text">Steps: @item.numSteps</p>
-                    <p class="card-text">Total Time: @item.totalTime</p>
-                    <p class="card-text">Serving Size: @item.servingSize</p>
+                    <p class="card-text">Number of steps: @item.TotalSteps</p>
+                    <p class="card-text">Total Time: @item.TotalTime</p>
+                    <p class="card-text">Serving Size: @item.ServingSize</p>
                     <p class="card-text">Difficulty: @item.Difficulty</p>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
                 </div>
