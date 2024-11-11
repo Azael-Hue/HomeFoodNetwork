@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,10 +34,9 @@ namespace HomeFoodNetwork.Controllers
                     Id = r.Id,
                     RecipeName = r.RecipeName,
                     User = r.User.UserName,
-                    // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
-                    totalSteps = r.RecipeSteps.Count(),
-                    totalTime = r.TotalTime,
-                    servingSize = r.ServingSize,
+                    TotalSteps = r.RecipeSteps.Count(),
+                    TotalTime = r.TotalTime,
+                    ServingSize = r.ServingSize,
                     Difficulty = r.Difficulty
                 }).ToListAsync();
 
@@ -93,6 +93,11 @@ namespace HomeFoodNetwork.Controllers
                     ServingSize = recipe.ServingSize,
                     Difficulty = recipe.Difficulty,
                     User = await _userManager.GetUserAsync(User), // Get the current user
+                    RecipeSteps = recipe.RecipeSteps.Select(s => new RecipeSteps
+                    {
+                        StepNumber = s.StepNumber,
+                        StepDescription = s.StepDescription
+                    }).ToList()
                 };
 
                 _context.Add(newRecipe);
@@ -111,7 +116,9 @@ namespace HomeFoodNetwork.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipe.FindAsync(id);
+            var recipe = await _context.Recipe
+                .Include(r => r.RecipeSteps)
+                .FirstOrDefaultAsync(r => r.Id == id);
             if (recipe == null)
             {
                 return NotFound();
@@ -130,7 +137,12 @@ namespace HomeFoodNetwork.Controllers
                 PrepTimeHours = int.Parse(recipe.PrepTime.Split(" ")[0]),
                 PrepTimeMinutes = int.Parse(recipe.PrepTime.Split(" ")[2]),
                 ServingSize = recipe.ServingSize,
-                Difficulty = recipe.Difficulty
+                Difficulty = recipe.Difficulty,
+                RecipeSteps = recipe.RecipeSteps.Select(s => new RecipeStepCreateViewModel
+                {
+                    StepNumber = s.StepNumber,
+                    StepDescription = s.StepDescription
+                }).ToList()
             };
             return View(recipeViewModel);
         }
@@ -152,7 +164,9 @@ namespace HomeFoodNetwork.Controllers
             {
                 try
                 {
-                    Recipe recipeToEdit = await _context.Recipe.FindAsync(id);
+                    Recipe recipeToEdit = await _context.Recipe
+                        .Include(r => r.RecipeSteps)
+                        .FirstOrDefaultAsync(r => r.Id == id);
 
                     recipeToEdit.RecipeName = recipe.RecipeName;
                     recipeToEdit.Description = recipe.Description;
@@ -164,6 +178,13 @@ namespace HomeFoodNetwork.Controllers
                     recipeToEdit.TotalTime = recipe.TotalTime;
                     recipeToEdit.ServingSize = recipe.ServingSize;
                     recipeToEdit.Difficulty = recipe.Difficulty;
+
+                    // Update the steps
+                    recipeToEdit.RecipeSteps = recipe.RecipeSteps.Select(s => new RecipeSteps
+                    {
+                        StepNumber = s.StepNumber,
+                        StepDescription = s.StepDescription
+                    }).ToList();
 
                     _context.Update(recipeToEdit);
                     await _context.SaveChangesAsync();

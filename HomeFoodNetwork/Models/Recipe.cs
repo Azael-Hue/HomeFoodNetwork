@@ -114,6 +114,30 @@ namespace HomeFoodNetwork.Models
 
         public string Difficulty { get; set; }
 
+        /// <summary>
+        /// List of steps for the recipe
+        /// </summary>
+        public List<RecipeStepCreateViewModel> RecipeSteps { get; set; } = new List<RecipeStepCreateViewModel>();
+
+        /// <summary>
+        /// Property to get the number of steps in the recipe
+        /// </summary>
+        public int NumSteps
+        {
+            get
+            {
+                return RecipeSteps.Count;
+            }
+        }
+    }
+
+    /// <summary>
+    /// View model for creating a recipe step
+    /// </summary>
+    public class RecipeStepCreateViewModel
+    {
+        public int StepNumber { get; set; }
+        public string StepDescription { get; set; }
     }
 
     public class RecipeIndexViewModel
@@ -124,12 +148,12 @@ namespace HomeFoodNetwork.Models
 
         public string User { get; set; }
 
-        public string totalTime { get; set; }
+        public string TotalTime { get; set; }
 
-        public int servingSize { get; set; }
+        public int ServingSize { get; set; }
 
         public string Difficulty { get; set; }
 
-        public int totalSteps { get; set; }
+        public int TotalSteps { get; set; }
     }
 }
