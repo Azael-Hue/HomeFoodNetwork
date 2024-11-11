@@ -207,7 +207,6 @@ namespace HomeFoodNetwork.Controllers
 
         // GET: Recipes/Delete/5
         [Authorize(Roles = IdentityHelper.User)]
-        [Authorize(Roles = IdentityHelper.Admin)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -228,7 +227,6 @@ namespace HomeFoodNetwork.Controllers
         // POST: Recipes/Delete/5
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = IdentityHelper.User)]
-        [Authorize(Roles = IdentityHelper.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
