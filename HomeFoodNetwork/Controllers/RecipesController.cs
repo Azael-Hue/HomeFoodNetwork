@@ -136,11 +136,13 @@ namespace HomeFoodNetwork.Controllers
                 PrepTimeMinutes = int.Parse(recipe.PrepTime.Split(" ")[2]),
                 ServingSize = recipe.ServingSize,
                 Difficulty = recipe.Difficulty,
-                RecipeSteps = recipe.RecipeSteps.Select(s => new RecipeStepCreateViewModel
-                {
-                    StepNumber = s.StepNumber,
-                    StepDescription = s.StepDescription
-                }).ToList()
+                RecipeSteps = recipe.RecipeSteps
+                    .OrderBy(s => s.StepNumber)
+                    .Select(s => new RecipeStepCreateViewModel
+                    {
+                        StepNumber = s.StepNumber,
+                        StepDescription = s.StepDescription
+                    }).ToList()
             };
             return View(recipeViewModel);
         }
@@ -169,8 +171,6 @@ namespace HomeFoodNetwork.Controllers
                     recipeToEdit.RecipeName = recipe.RecipeName;
                     recipeToEdit.Description = recipe.Description;
                     recipeToEdit.Ingredients = recipe.Ingredients;
-                    // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
-                    // recipeToEdit.NumSteps = recipe.NumSteps;
                     recipeToEdit.CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes";
                     recipeToEdit.PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes";
                     recipeToEdit.TotalTime = recipe.TotalTime;
@@ -178,11 +178,16 @@ namespace HomeFoodNetwork.Controllers
                     recipeToEdit.Difficulty = recipe.Difficulty;
 
                     // Update the steps
-                    recipeToEdit.RecipeSteps = recipe.RecipeSteps.Select(s => new RecipeSteps
+                    recipeToEdit.RecipeSteps.Clear();
+                    foreach (var step in recipe.RecipeSteps)
                     {
-                        StepNumber = s.StepNumber,
-                        StepDescription = s.StepDescription
-                    }).ToList();
+                        recipeToEdit.RecipeSteps.Add(new RecipeSteps
+                        {
+                            StepNumber = step.StepNumber,
+                            StepDescription = step.StepDescription,
+                            RecipeId = recipeToEdit.Id
+                        });
+                    }
 
                     _context.Update(recipeToEdit);
                     await _context.SaveChangesAsync();
