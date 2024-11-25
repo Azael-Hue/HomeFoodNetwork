@@ -85,8 +85,6 @@ namespace HomeFoodNetwork.Controllers
                     RecipeName = recipe.RecipeName,
                     Description = recipe.Description,
                     Ingredients = recipe.Ingredients,
-                    // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
-                    // NumSteps = recipe.NumSteps,
                     CookTime = $"{recipe.CookTimeHours} hours {recipe.CookTimeMinutes} minutes",
                     PrepTime = $"{recipe.PrepTimeHours} hours {recipe.PrepTimeMinutes} minutes",
                     TotalTime = recipe.TotalTime,
@@ -206,7 +204,7 @@ namespace HomeFoodNetwork.Controllers
         }
 
         // GET: Recipes/Delete/5
-        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.User + ", " + IdentityHelper.Admin)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -220,13 +218,12 @@ namespace HomeFoodNetwork.Controllers
             {
                 return NotFound();
             }
-
             return View(recipe);
         }
 
         // POST: Recipes/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.User + ", " + IdentityHelper.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
