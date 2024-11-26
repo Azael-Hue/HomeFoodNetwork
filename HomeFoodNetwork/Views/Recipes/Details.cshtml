@@ -14,9 +14,11 @@
 
     <dl class="row">
 
+        <!-- Recipe Details -->
         <div class="row">
 
-            <div class="col-md-3">
+            <!-- The Recipe Description -->
+            <div class="col-md-3 col-12">
                 <dt class="col-sm-2">
                     <h5>Description</h5>
                 </dt>
@@ -25,8 +27,7 @@
                 </dd>
             </div>
 
-
-
+            <!-- Recipe Time elements -->
             <div class="col-md-3">
                 <dt class="col-sm-6">
                     <h5>Cook Time</h5>
@@ -50,8 +51,7 @@
                 </dd>
             </div>
 
-
-
+            <!-- Serving size and difficulty -->
             <div class="col-md-3">
 
                 <dt class="col-sm-6">
@@ -70,8 +70,7 @@
 
             </div>
 
-
-
+            <!-- The Recipe ingredients listed with a checkbox so user can keep track -->
             <div class="col-md-3">
 
                 <dt class="col-sm-2">
@@ -90,7 +89,7 @@
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         @ingredient.Trim()
-                                    </label>                                
+                                    </label>
                                 </li>
                             }
                         }
@@ -98,27 +97,33 @@
                 </dd>
             </div>
 
-
-
         </div>
 
-        <dt class = "col-sm-2">
-            <h5>Steps</h5>
-        </dt>
-        <!-- loop through the all the steps to display each -->
-        <dd class = "col-sm-10">
-            <ol>
-                @foreach (var step in Model.RecipeSteps.OrderBy(s => s.StepNumber)){
-                    <li>@step.StepDescription</li>
-                }
-            </ol>
-        </dd>
+        <!-- Recipe Steps -->
+        <div>
+
+            <dt class="col-sm-2">
+                <h5>Steps</h5>
+            </dt>
+
+            <!-- loop through the all the steps to display each -->
+            <dd class="col-sm-10">
+                <ol>
+                    @foreach (var step in Model.RecipeSteps.OrderBy(s => s.StepNumber))
+                    {
+                        <li>@step.StepDescription</li>
+                    }
+                </ol>
+            </dd>
+
+        </div>
 
     </dl>
 </div>
 
 <hr />
 
+<!-- Check if the user is logged in and allow them to see the Edit and Delete button -->
 <div>
     @if (User.IsInRole(IdentityHelper.Admin) || User.IsInRole(IdentityHelper.User))
     {
@@ -126,7 +131,7 @@
     }
 
     | <a asp-action="Index">Back to List</a> |
-    
+
     @if (User.IsInRole(IdentityHelper.Admin) || User.IsInRole(IdentityHelper.User))
     {
         <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
