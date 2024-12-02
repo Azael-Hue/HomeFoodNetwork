@@ -134,27 +134,36 @@
             if ($(`#step-${stepCount} input`).val().trim() === "") {
                 alert("Please fill out the current step before adding a new one.");
                 return;
-            }   else {
-                stepCount++;
-
-                let step =
-                `<div class="step-input" id="step-${stepCount}">
-                    <label for="RecipeSteps[${stepCount - 1}].StepDescription">Step ${stepCount}</label>
-                    <input type="text" name="RecipeSteps[${stepCount - 1}].StepDescription" class="form-control" placeholder="Enter step description" />
-                    <button type="button" class="btn btn-danger mt-2" onclick="removeStep(${stepCount})"> Remove </button>
-                </div>`;
-
-                $('#stepsContainer').append(step);
             }
+
+            stepCount++;
+
+            let step =
+            `<div class="step-input" id="step-${stepCount}">
+                <label for="RecipeSteps[${stepCount - 1}].StepDescription">Step ${stepCount}</label>
+                <input type="text" name="RecipeSteps[${stepCount - 1}].StepDescription" class="form-control" placeholder="Enter step description" />
+                <button type="button" class="btn btn-danger mt-2" onclick="removeStep(${stepCount})"> Remove </button>
+            </div>`;
+
+            $('#stepsContainer').append(step);
+            updateStepLabels();
         }
 
         function removeStep(stepNumber) {
             if (stepCount === 1) {
                 alert("You cannot remove the last step.");
                 return;
-            }   else {
-                $(`#step-${stepNumber}`).remove();
-                stepCount--;
+            }
+
+            $(`#step-${stepNumber}`).remove();
+            stepCount--
+            updateStepLabels();
+        }
+
+        function updateStepLabels() {
+            let steps = document.getElementsByClassName("step-input");
+            for (let i = 0; i < steps.length; i++) {
+                steps[i].getElementsByTagName("label")[0].innerText = `Step ${i + 1}`;
             }
         }
     </script>
