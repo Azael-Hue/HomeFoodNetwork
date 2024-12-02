@@ -11,6 +11,7 @@ namespace HomeFoodNetwork.Models
         /// <summary>
         /// Foreign key for the recipe
         /// </summary>
+        [Required]
         [ForeignKey("Recipe")]
         public int RecipeId { get; set; }
 

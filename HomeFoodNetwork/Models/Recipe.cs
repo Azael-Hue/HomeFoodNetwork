@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HomeFoodNetwork.Models
 {
+    /// <summary>
+    /// This is the main model for the recipe class
+    /// </summary>
     public class Recipe
     {
 
@@ -74,6 +77,9 @@ namespace HomeFoodNetwork.Models
         public virtual ICollection<RecipeSteps> RecipeSteps { get; set; } = new List<RecipeSteps>();
     }
 
+    /// <summary>
+    /// This is the view model for creating a recipe on the site
+    /// </summary>
     public class RecipeCreateViewModel
     {
         public int Id { get; set; }
@@ -90,8 +96,11 @@ namespace HomeFoodNetwork.Models
         /// hours and minutes of the cook and prep time
         /// </summary>
         public int CookTimeHours { get; set; }
+        
         public int CookTimeMinutes { get; set; }
+        
         public int PrepTimeHours { get; set; }
+        
         public int PrepTimeMinutes { get; set; }
 
         public string TotalTime
@@ -132,7 +141,7 @@ namespace HomeFoodNetwork.Models
     }
 
     /// <summary>
-    /// View model for creating a recipe step
+    /// This is the view model for creating the steps of a recipe
     /// </summary>
     public class RecipeStepCreateViewModel
     {
@@ -140,6 +149,9 @@ namespace HomeFoodNetwork.Models
         public string StepDescription { get; set; }
     }
 
+    /// <summary>
+    /// This is the view model for the recipe details page
+    /// </summary>
     public class RecipeIndexViewModel
     {
         public int Id { get; set; }
