@@ -134,42 +134,41 @@
         let stepCount = @Model.RecipeSteps?.Count ?? 1;
 
         function addStep() {
-            
-            // Find the last input field dynamically
-            const lastInput = $('#stepsContainer .step-input:last-child input');
-
-            if (lastInput.val().trim() === "") {
+            // Check if the last step input is empty
+            if ($(`#step-${stepCount} input`).val().trim() === "") {
                 alert("Please fill out the current step before adding a new one.");
                 return;
             }
 
-            stepCount++; // Increment the step count
+            stepCount++;
 
-            let step = `<div class="step-input" id="step-${stepCount}">
-                            <label for="RecipeSteps[${stepCount - 1}].StepDescription">Step ${stepCount}</label>
-                            <input type="text" name="RecipeSteps[${stepCount - 1}].StepDescription" class="form-control" placeholder="Enter step description" />
-                            <button type="button" class="btn btn-danger mt-2" onclick="removeStep(${stepCount})">Remove</button>
-                        </div>`;
+            let step =
+            `<div class="step-input" id="step-${stepCount}">
+                <label for="RecipeSteps[${stepCount - 1}].StepDescription">Step ${stepCount}</label>
+                <input type="text" name="RecipeSteps[${stepCount - 1}].StepDescription" class="form-control" placeholder="Enter step description" />
+                <button type="button" class="btn btn-danger mt-2" onclick="removeStep(${stepCount})"> Remove </button>
+            </div>`;
 
-            $(step).appendTo('#stepsContainer');
+            $('#stepsContainer').append(step);
+            updateStepLabels();
         }
 
         function removeStep(stepNumber) {
             if (stepCount === 1) {
                 alert("You cannot remove the last step.");
                 return;
-            }   
-            else {
-                $(`#step-${stepNumber}`).remove();
-                stepCount--;
+            }
 
-                // Reorder remaining steps
-                $('#stepsContainer .step-input').each((index, element) => {
-                    $(element).attr('id', `step-${index + 1}`);
-                    $(element).find('label').text(`Step ${index + 1}`);
-                    $(element).find('input').attr('name', `RecipeSteps[${index}].StepDescription`);
-                });
-            };
+            $(`#step-${stepNumber}`).remove();
+            stepCount--
+            updateStepLabels();
+        }
+
+        function updateStepLabels() {
+            let steps = document.getElementsByClassName("step-input");
+            for (let i = 0; i < steps.length; i++) {
+                steps[i].getElementsByTagName("label")[0].innerText = `Step ${i + 1}`;
+            }
         }
     </script>
 }
