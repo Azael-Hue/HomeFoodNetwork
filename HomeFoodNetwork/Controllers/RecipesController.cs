@@ -63,7 +63,7 @@ namespace HomeFoodNetwork.Controllers
         }
 
         // GET: Recipes/Create
-        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.User + ", " + IdentityHelper.Admin)]
         public IActionResult Create()
         {
             return View();
@@ -74,11 +74,17 @@ namespace HomeFoodNetwork.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.User + ", " + IdentityHelper.Admin)]
         public async Task<IActionResult> Create(RecipeCreateViewModel recipe)
         {
             if (ModelState.IsValid)
             {
+
+                if (recipe.RecipeSteps.Count == 0)
+                {
+                    ModelState.AddModelError("RecipeSteps", "You must have at least one step in the recipe");
+                    return View(recipe);
+                }
 
                 Recipe newRecipe = new()
                 {
@@ -91,9 +97,9 @@ namespace HomeFoodNetwork.Controllers
                     ServingSize = recipe.ServingSize,
                     Difficulty = recipe.Difficulty,
                     User = await _userManager.GetUserAsync(User), // Get the current user
-                    RecipeSteps = recipe.RecipeSteps.Select(s => new RecipeSteps
+                    RecipeSteps = recipe.RecipeSteps.Select((s, index) => new RecipeSteps
                     {
-                        StepNumber = s.StepNumber,
+                        StepNumber = index + 1,
                         StepDescription = s.StepDescription
                     }).ToList()
                 };
@@ -106,7 +112,7 @@ namespace HomeFoodNetwork.Controllers
         }
 
         // GET: Recipes/Edit/5
-        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.User + ", " + IdentityHelper.Admin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -128,8 +134,6 @@ namespace HomeFoodNetwork.Controllers
                 RecipeName = recipe.RecipeName,
                 Description = recipe.Description,
                 Ingredients = recipe.Ingredients,
-                // REFACTOR THIS ONCE RECIPE STEPS ARE IMPLEMENTED
-                // NumSteps = recipe.NumSteps,
                 CookTimeHours = int.Parse(recipe.CookTime.Split(" ")[0]),
                 CookTimeMinutes = int.Parse(recipe.CookTime.Split(" ")[2]),
                 PrepTimeHours = int.Parse(recipe.PrepTime.Split(" ")[0]),
@@ -152,7 +156,7 @@ namespace HomeFoodNetwork.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = IdentityHelper.User)]
+        [Authorize(Roles = IdentityHelper.User + ", " + IdentityHelper.Admin)]
         public async Task<IActionResult> Edit(int id, RecipeCreateViewModel recipe)
         {
             if (id != recipe.Id)
