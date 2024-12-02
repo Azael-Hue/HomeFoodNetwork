@@ -125,15 +125,16 @@
 
 <!-- Check if the user is logged in and allow them to see the Edit and Delete button -->
 <div>
-    @if (User.IsInRole(IdentityHelper.Admin) || User.IsInRole(IdentityHelper.User))
-    {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+    @{
+        bool showLink = User.IsInRole(IdentityHelper.Admin) || User.IsInRole(IdentityHelper.User);
     }
 
-    | <a asp-action="Index">Back to List</a> |
+    <a asp-action="Index">Back to List</a>
 
-    @if (User.IsInRole(IdentityHelper.Admin) || User.IsInRole(IdentityHelper.User))
+    @if (showLink)
     {
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+        
         <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
     }
 </div>
