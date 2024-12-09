@@ -7,9 +7,7 @@
 }
 
 <div>
-
     <h1>@Model.RecipeName</h1>
-
     <hr />
 
     <dl class="row">
@@ -129,12 +127,13 @@
         bool showLink = User.IsInRole(IdentityHelper.Admin) || User.IsInRole(IdentityHelper.User);
     }
 
-    <a asp-action="Index">Back to List</a>
-
     @if (showLink)
     {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-        
-        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
     }
+
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+
 </div>

@@ -4,38 +4,109 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<div>
+    <h1>Edit the @Model.RecipeName recipe</h1>
+    <hr />
 
-<h4>Recipe</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+        <dl class="row">            
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="RecipeName" class="control-label">Recipe Name</label>
-                <input asp-for="RecipeName" class="form-control" />
-                <span asp-validation-for="RecipeName" class="text-danger"></span>
+
+            <!-- Name & Description -->
+            <div class="col-md-3">                
+                <!-- REIPE NAME -->
+                <div class="form-group">
+                    <label asp-for="RecipeName" class="control-label">Recipe Name</label>
+                    <input asp-for="RecipeName" class="form-control" />
+                    <span asp-validation-for="RecipeName" class="text-danger"></span>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="6"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Description" class="control-label">Description</label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <!-- Time -->
+            <div class="col-md-3">
+
+                <h4>How many </h4>
+
+                <!-- COOKING TIME -->
+                <div class="form-group">
+                    <label asp-for="CookTimeHours" class="control-label">Hours to Cook:</label>
+                    <input type="number" asp-for="CookTimeHours" class="form-control"
+                            placeholder="Hours" min="0" />
+                    <span asp-validation-for="CookTimeHours" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CookTimeMinutes" class="control-label">Minutes to Cook:</label>
+                    <input type="number" asp-for="CookTimeMinutes" class="form-control"
+                            placeholder="Minutes" min="0" max="59" />
+                    <span asp-validation-for="CookTimeHours" class="text-danger"></span>
+                </div>
+
+                <!-- PREPING TIME -->
+                <div class="form-group">
+                    <label asp-for="PrepTimeHours" class="control-label">Hours to Prepare:</label>
+                    <input type="number" asp-for="PrepTimeHours" class="form-control"
+                            placeholder="Hours" min="0" />
+                    <span asp-validation-for="PrepTimeHours" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PrepTimeMinutes" class="control-label">minutes to prepare:</label>
+                    <input type="number" asp-for="PrepTimeMinutes" class="form-control"
+                            placeholder="Minutes" min="0" max="59" />
+                    <span asp-validation-for="PrepTimeHours" class="text-danger"></span>
+                </div>
+
             </div>
 
-            <div class="form-group">
-                <label asp-for="Ingredients" class="control-label">Ingredients</label>
-                <input asp-for="Ingredients" class="form-control" />
-                <span asp-validation-for="Ingredients" class="text-danger"></span>
+            <!-- Ingredients, Size & Difficulty -->
+            <div class="col-md-3">
+
+                <!-- INGREDIENTS -->
+                <div class="form-group">
+                    <label asp-for="Ingredients" class="control-label">Ingredients</label>
+                    <input asp-for="Ingredients" class="form-control" />
+                    <span asp-validation-for="Ingredients" class="text-danger"></span>
+                </div>
+
+                <!-- SERVING SIZE -->
+                <div class="form-group">
+                    <label asp-for="ServingSize" class="control-label">Serving Size</label>
+                    <input asp-for="ServingSize" class="form-control" />
+                    <span asp-validation-for="ServingSize" class="text-danger"></span>
+                </div>
+
+                <!-- DIFFICULTY -->
+                <div class="form-group">
+                    <label asp-for="Difficulty" class="control-label"></label>
+                    <div>
+                        <div>
+                            <input class="form-check-input" type="radio" asp-for="Difficulty" value="Easy" /> Easy
+                        </div>
+                        <div>
+                            <input class="form-check-input" type="radio" asp-for="Difficulty" value="Medium" /> Medium
+                        </div>
+                        <div>
+                            <input class="form-check-input" type="radio" asp-for="Difficulty" value="Hard" /> Hard
+                        </div>
+                    </div>
+                    <span asp-validation-for="Difficulty" class="text-danger"></span>
+                </div>
+
             </div>
 
-            <!--
-                    STEPS
-            -->
-            <div class="form-group">
+            <!-- STEPS -->
+            <div class="col-md-3">
+
                 <label class="control-label">Steps</label>
                 <div id="stepsContainer">
                     <label>Step @Model.RecipeSteps[0].StepNumber </label>
@@ -51,79 +122,19 @@
                     }
                 </div>
                 <button type="button" class="btn btn-secondary mt-2" onclick="addStep()">Add Step</button>
+
             </div>
 
-            <!--
-                COOKING TIME
-            -->
+        </dl>
 
-            <div class="form-group">
-                <label asp-for="CookTimeHours" class="control-label">How many Hours to Cook:</label>
-                <input type="number" asp-for="CookTimeHours" class="form-control"
-                       placeholder="Hours" min="0" />
-                <span asp-validation-for="CookTimeHours" class="text-danger"></span>
-            </div>
+        <hr />
 
-            <div class="form-group">
-                <label asp-for="CookTimeMinutes" class="control-label">How many Minutes to Cook:</label>
-                <input type="number" asp-for="CookTimeMinutes" class="form-control"
-                       placeholder="Minutes" min="0" max="59" />
-                <span asp-validation-for="CookTimeHours" class="text-danger"></span>
-            </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" /> |
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+        </div>
 
-            <br />
-            <!--
-                PREPING TIME
-            -->
-
-            <div class="form-group">
-                <label asp-for="PrepTimeHours" class="control-label">How many Hours to Prepare:</label>
-                <input type="number" asp-for="PrepTimeHours" class="form-control"
-                       placeholder="Hours" min="0" />
-                <span asp-validation-for="PrepTimeHours" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PrepTimeMinutes" class="control-label">How many minutes to prepare:</label>
-                <input type="number" asp-for="PrepTimeMinutes" class="form-control"
-                       placeholder="Minutes" min="0" max="59" />
-                <span asp-validation-for="PrepTimeHours" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ServingSize" class="control-label">Serving Size</label>
-                <input asp-for="ServingSize" class="form-control" />
-                <span asp-validation-for="ServingSize" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Difficulty" class="control-label"></label>
-                <div>
-                    <div>
-                        <input class="form-check-input" type="radio" asp-for="Difficulty" value="Easy" /> Easy
-                    </div>
-                    <div>
-                        <input class="form-check-input" type="radio" asp-for="Difficulty" value="Medium" /> Medium
-                    </div>
-                    <div>
-                        <input class="form-check-input" type="radio" asp-for="Difficulty" value="Hard" /> Hard
-                    </div>
-                </div>
-                <span asp-validation-for="Difficulty" class="text-danger"></span>
-            </div>
-
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-            <br />
-
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    </form>    
 </div>
 
 @section Scripts {
