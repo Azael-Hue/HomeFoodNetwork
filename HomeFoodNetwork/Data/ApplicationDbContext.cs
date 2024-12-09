@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using HomeFoodNetwork.Models;
 
 namespace HomeFoodNetwork.Data
 {
@@ -9,5 +10,7 @@ namespace HomeFoodNetwork.Data
             : base(options)
         {
         }
+        public DbSet<Recipe> Recipe { get; set; } = default!;
+        public DbSet<RecipeSteps> RecipeSteps { get; set; } = default!;
     }
 }

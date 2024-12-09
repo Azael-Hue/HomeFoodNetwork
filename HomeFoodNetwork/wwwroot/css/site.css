@@ -20,3 +20,22 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar-brand {
+    padding: 0;
+    text-align: center;
+}
+
+.header-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.nav-item .nav-link {
+    font-family: 'FOT-Yuruka Std UB', sans-serif;
+}
+
+font-face {
+    font-family: 'FOT-Yuruka Std UB';
+    src: url('../fonts/FOT-Yuruka-Std-UB.woff2') format('woff2');
+}

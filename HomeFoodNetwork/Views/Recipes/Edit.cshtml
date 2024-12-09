@@ -1,0 +1,185 @@
+﻿@model RecipeCreateViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div>
+    <h1>Edit the @Model.RecipeName recipe</h1>
+    <hr />
+
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+        <dl class="row">            
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Name & Description -->
+            <div class="col-md-3">                
+                <!-- REIPE NAME -->
+                <div class="form-group">
+                    <label asp-for="RecipeName" class="control-label">Recipe Name</label>
+                    <input asp-for="RecipeName" class="form-control" />
+                    <span asp-validation-for="RecipeName" class="text-danger"></span>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="6"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Time -->
+            <div class="col-md-3">
+
+                <h4>How many </h4>
+
+                <!-- COOKING TIME -->
+                <div class="form-group">
+                    <label asp-for="CookTimeHours" class="control-label">Hours to Cook:</label>
+                    <input type="number" asp-for="CookTimeHours" class="form-control"
+                            placeholder="Hours" min="0" />
+                    <span asp-validation-for="CookTimeHours" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CookTimeMinutes" class="control-label">Minutes to Cook:</label>
+                    <input type="number" asp-for="CookTimeMinutes" class="form-control"
+                            placeholder="Minutes" min="0" max="59" />
+                    <span asp-validation-for="CookTimeHours" class="text-danger"></span>
+                </div>
+
+                <!-- PREPING TIME -->
+                <div class="form-group">
+                    <label asp-for="PrepTimeHours" class="control-label">Hours to Prepare:</label>
+                    <input type="number" asp-for="PrepTimeHours" class="form-control"
+                            placeholder="Hours" min="0" />
+                    <span asp-validation-for="PrepTimeHours" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PrepTimeMinutes" class="control-label">minutes to prepare:</label>
+                    <input type="number" asp-for="PrepTimeMinutes" class="form-control"
+                            placeholder="Minutes" min="0" max="59" />
+                    <span asp-validation-for="PrepTimeHours" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <!-- Ingredients, Size & Difficulty -->
+            <div class="col-md-3">
+
+                <!-- INGREDIENTS -->
+                <div class="form-group">
+                    <label asp-for="Ingredients" class="control-label">Ingredients</label>
+                    <input asp-for="Ingredients" class="form-control" />
+                    <span asp-validation-for="Ingredients" class="text-danger"></span>
+                </div>
+
+                <!-- SERVING SIZE -->
+                <div class="form-group">
+                    <label asp-for="ServingSize" class="control-label">Serving Size</label>
+                    <input asp-for="ServingSize" class="form-control" />
+                    <span asp-validation-for="ServingSize" class="text-danger"></span>
+                </div>
+
+                <!-- DIFFICULTY -->
+                <div class="form-group">
+                    <label asp-for="Difficulty" class="control-label"></label>
+                    <div>
+                        <div>
+                            <input class="form-check-input" type="radio" asp-for="Difficulty" value="Easy" /> Easy
+                        </div>
+                        <div>
+                            <input class="form-check-input" type="radio" asp-for="Difficulty" value="Medium" /> Medium
+                        </div>
+                        <div>
+                            <input class="form-check-input" type="radio" asp-for="Difficulty" value="Hard" /> Hard
+                        </div>
+                    </div>
+                    <span asp-validation-for="Difficulty" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <!-- STEPS -->
+            <div class="col-md-3">
+
+                <label class="control-label">Steps</label>
+                <div id="stepsContainer">
+                    <label>Step @Model.RecipeSteps[0].StepNumber </label>
+                    <input asp-for="RecipeSteps[0].StepDescription" class="form-control" />
+                    <span asp-validation-for="RecipeSteps[0].StepDescription" class="text-danger"></span>
+
+                    @for(int i = 1; i < Model.RecipeSteps.Count; i++)
+                    {
+                        <div class="step-input">
+                            <label>Step @Model.RecipeSteps[i].StepNumber</label>
+                            <input asp-for="RecipeSteps[@i].StepDescription" class="form-control" />
+                        </div>
+                    }
+                </div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addStep()">Add Step</button>
+
+            </div>
+
+        </dl>
+
+        <hr />
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" /> |
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+        </div>
+
+    </form>    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        let stepCount = @Model.RecipeSteps?.Count ?? 1;
+
+        function addStep() {
+            // Check if the last step input is empty
+            if ($(`#step-${stepCount} input`).val().trim() === "") {
+                alert("Please fill out the current step before adding a new one.");
+                return;
+            }
+
+            stepCount++;
+
+            let step =
+            `<div class="step-input" id="step-${stepCount}">
+                <label for="RecipeSteps[${stepCount - 1}].StepDescription">Step ${stepCount}</label>
+                <input type="text" name="RecipeSteps[${stepCount - 1}].StepDescription" class="form-control" placeholder="Enter step description" />
+                <button type="button" class="btn btn-danger mt-2" onclick="removeStep(${stepCount})"> Remove </button>
+            </div>`;
+
+            $('#stepsContainer').append(step);
+            updateStepLabels();
+        }
+
+        function removeStep(stepNumber) {
+            if (stepCount === 1) {
+                alert("You cannot remove the last step.");
+                return;
+            }
+
+            $(`#step-${stepNumber}`).remove();
+            stepCount--
+            updateStepLabels();
+        }
+
+        function updateStepLabels() {
+            let steps = document.getElementsByClassName("step-input");
+            for (let i = 0; i < steps.length; i++) {
+                steps[i].getElementsByTagName("label")[0].innerText = `Step ${i + 1}`;
+            }
+        }
+    </script>
+}
